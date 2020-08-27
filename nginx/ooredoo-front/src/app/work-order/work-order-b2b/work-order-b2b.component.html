@@ -1,0 +1,156 @@
+<form class="form-horizontal m-t-40" [formGroup]="workOrderFormGroup" (ngSubmit)="onSubmit(workOrderFormGroup)">
+    <div class="row">
+        <div class="col-sm-12 card-no-border">
+            <div class="card ">
+                <div class="card-header bg-header header-no-border">
+                    <h4 class="card-title m-b-0">Workorder Generator</h4>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-subtitle">
+                        <div class="preview p-b-15 p-t-15"> <i class="icon-info round-icon"></i> Please start with
+                            typing client code,
+                            then fill in the following fields.
+                        </div>
+                    </h6>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label>Customer code*</label>
+                                <input class="form-control font-13" type="text" formControlName="codeClient"
+                                    placeholder="TUN_B377">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="vendor">Vendor*</label>
+                                <select class="custom-select col-12 font-13" formControlName="vendor"
+                                    id="inlineFormCustomSelect">
+                                    <option value="0" selected disabled>Choose vendor</option>
+                                    <option value="1">Nokia</option>
+                                    <option value="2">Cisco</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="template-type">Template Type*</label>
+                                <select class="custom-select col-12 mdb-select font-13" formControlName="templateType"
+                                    id="inlineFormCustomSelect">
+                                    <option value="0" selected disabled>Choose template</option>
+                                    <option value="1">Normal</option>
+                                    <option value="2">Dual Homing</option>
+                                    <option value="3">MCLag</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="reset"
+                                class="btn btn-secondary waves-effect waves-light m-t-10 float-right m-l-10">Cancel</button>
+                            <button type="submit"
+                                class="btn btn-info waves-effect waves-light m-t-10 float-right m-l-10"
+                                [disabled]="workOrderFormGroup.invalid">Generate</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <ui-work-order-list [workOrders]="workOrders" [pages] = "pages" (actionClick)="onActionClick($event)" (pageChange)="onPageChange($event)"></ui-work-order-list>
+    <div class="row">
+        <div class="col-12 card-no-border">
+            <div class="card">
+                <div class="card-body">
+                    <button class="btn btn-outline-dark" type="button"
+                        [routerLink]="'/work-order/work-order-dashboard'">
+                        Previous
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<!-- Delete confirmation modal -->
+<ng-template #content let-modal >
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="text-center text-primary">Are you sure ypu want to delete {{workOrder.name}}</div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('CANCEL')">Cancel</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('CONFIRM')">Confirm</button>
+    </div>
+</ng-template>
+
+<!-- Edit confirmation modal -->
+<ng-template #content2 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Workorder update</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal m-t-40" [formGroup]="workOrderFormEdit" (ngSubmit)="onSubmitEdit(workOrderFormEdit)">
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label>Customer code*</label>
+                    <input class="form-control font-13" type="text" formControlName="codeClient"
+                        placeholder="TUN_B377" >
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label for="vendor">Vendor*</label>
+                    <select class="custom-select col-12 font-13" formControlName="vendor"
+                        id="inlineFormCustomSelect">
+                        <option value="0" selected disabled>Choose vendor</option>
+                        <option value="1">Nokia</option>
+                        <option value="2">Cisco</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="form-group">
+                    <label for="template-type">Template Type*</label>
+                    <select class="custom-select col-12 mdb-select font-13" formControlName="templateType"
+                        id="inlineFormCustomSelect">
+                        <option value="0" selected disabled>Choose template</option>
+                        <option value="1" >Normal</option>
+                        <option value="2">Dual Homing</option>
+                        <option value="3">MCLag</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button type="reset"
+                    class="btn btn-secondary waves-effect waves-light m-t-10 float-right m-l-10" (click)="modal.close('CANCEL')">Cancel</button>
+                <button type="submit"
+                    class="btn btn-info waves-effect waves-light m-t-10 float-right m-l-10"
+                    [disabled]="workOrderFormEdit.invalid">Save</button>
+            </div>
+        </div>
+      
+    </form>
+  </div>
+  <div class="modal-footer">   
+    <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('SAVE')">Save</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('CANCEL')">Close</button> -->
+
+  </div>
+  
+</ng-template>

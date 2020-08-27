@@ -1,0 +1,66 @@
+
+filter
+     match-list
+     ip-prefix-list "CPM-OSPF"
+            prefix {{attributes["subnet_vpn_pba"]}}
+    exit
+{% if  from_bgp_toospf_existance_bol %}
+policy-options
+            policy-statement "from-BGPVPN-to-OSPF"
+                entry 10
+                    from
+                        protocol bgp-vpn
+                    exit
+                    to
+                        protocol ospf
+                    exit
+                    action accept
+                    exit
+                exit
+            exit
+commit
+{% endif %}
+configure service vprn {{ attributes["serviceid"]}} customer 2 create
+        {% if  service_existance_bol %}
+        description "VPRN_{{attributes["description_vpn"]}}"
+        autonomous-system 64882
+        route-distinguisher 64882:{{ attributes["serviceid"]}}{{device_devices["rd"]}}
+        auto-bind-tunnel
+                    resolution-filter
+                        rsvp
+                    exit
+                    resolutions
+                exit
+        vrf-target target:64882:{{ attributes["serviceid"]}}
+        {% endif %}
+        interface "to_CPE_{{ attributes["interface_name"]}}" create
+            description "IV CEI;DT_FIXE;VPN_{{attributes["description_vpn"]}};INCLUDE_SC"
+            address {{attributes["vpn_ip_pba"]}}
+            sap {{ attributes["port"]}}:{{attributes["vpn_vlan"]}} create
+                ingress
+                    qos {{ attributes["qos_ingress"] }}
+                exit
+                egress
+                    qos {{ attributes["qos_ingress"] }}
+                exit
+                collect-stats
+                accounting-policy 10
+            exit
+        exit
+        ospf
+            export "from-BGPVPN-to-OSPF"
+            area 0.0.0.0
+                interface "to_CPE_{{attributes["interface_name"]}}"
+                    interface-type point-to-point
+                    mtu 1500
+                    authentication-type message-digest
+                    message-digest-key 1 md5 {{attributes["authentication_key"]}}
+                exit
+            exit
+        exit
+    {% if  service_existance_bol %}
+    service-name "VPRN_{{attributes["description_vpn"]}}"
+    no shutdown
+    {% endif %}
+exit
+

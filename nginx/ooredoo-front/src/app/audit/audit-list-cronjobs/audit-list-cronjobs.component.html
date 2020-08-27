@@ -1,0 +1,65 @@
+<div class="row">
+  <!-- column -->
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">CronJob Table</h4>
+        <h6 class="card-subtitle">
+          <div class="preview">
+            <i class="fa fa-info-circle"></i> Here you find all the scheduled tasks
+          </div>
+        </h6>
+        <div class="table-responsive">
+          <table class="table table-generic">
+            <thead>
+              <tr>
+                <th class="text-center table-th">Creation Date</th>
+                <th class="text-center table-th">Command</th>
+                <th class="text-center table-th">Schedule</th>
+                <th class="text-center table-th">Last Run</th>
+                <th class="text-center table-th">Status</th>
+                <!--th class="text-center table-th">Next Run</!--th-->
+                <th class="text-center table-th">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="cronJobs && cronJobs.length !== 0">
+                <tr *ngFor="let cronJob of cronJobs">
+                  <td class="table-td-hover pointer" [routerLink]="['/cron-job/cron-job-detail/']">
+                    {{ cronJob.creationDate }}
+                  </td>
+                  <td class="text-center">{{ cronJob.command }}</td>
+                  <td class="text-center">{{ cronJob.cronSchedule }}</td>
+                  <td class="text-center">{{ cronJob.lastRun }}</td>
+                  <td class="text-center">{{ cronJob.status }}</td>
+                  <!--td>{{ cronJob.nextRun }}</td-->
+                  <td class="td-action-border text-center align-middle">
+                    <i class="icon-close round-icon m-r-5 pointer round-icon-hover"
+                      (click)="onClick('STOP', cronJob)"></i>
+                    <i class="icon-reload round-icon m-r-5 pointer round-icon-hover"
+                      (click)="onClick('RUN', cronJob)"></i>
+                    <i class="icon-options-vertical p-7-5 pointer round-icon-hover"></i>
+                  </td>
+                </tr>
+              </ng-container>
+
+              <ng-container>
+                <tr *ngIf="!cronJobs || cronJobs.length === 0">
+                  <td colspan="5">No Data</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <div class="row justify-content-center m-t-15">
+
+          <!-- Pagination  -->
+          <ngb-pagination [collectionSize]="pages * 10" [(page)]="page" [maxSize]="3" [boundaryLinks]="true"
+            (pageChange)="onPageChange($event)">
+          </ngb-pagination>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

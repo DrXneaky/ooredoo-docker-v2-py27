@@ -1,0 +1,9 @@
+account gmail {
+  set smtp-use-starttls
+  set ssl-verify=ignore
+  set smtp=smtp://smtp.gmail.com:587
+  set smtp-auth=login
+  set smtp-auth-user=ahess180@gmail.com
+  set smtp-auth-password=dioressfifa
+  set from="ahess180@gmail.com(CronJob)"
+}

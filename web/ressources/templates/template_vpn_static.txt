@@ -1,0 +1,45 @@
+
+
+configure service vprn {{ attributes["serviceid"]}}  customer 2 create
+    {% if  service_existance_bol %}
+    description "VPRN_{{attributes["description_vpn"]}}"
+    autonomous-system 64882
+    route-distinguisher 64882:{{ attributes["serviceid"]}}{{device_devices["rd"]}}
+    auto-bind-tunnel
+                resolution-filter
+                    rsvp
+                exit
+                resolutions
+            exit
+    vrf-target target:64882:{{ attributes["serviceid"]}}
+    {% else %}
+    {% endif %}
+    interface "to_CPE_{{ attributes["interface_name"]}}" create
+        description "IV CEI;DT_FIXE;VPN_{{attributes["description_vpn"]}};INCLUDE_SC"
+        address {{attributes["vpn_ip_pba"]}}
+        sap {{ attributes["port"]}}:{{attributes["vpn_vlan"] }} create
+            ingress
+                qos {{ attributes["qos_ingress"] }}
+            exit
+            egress
+                qos {{ attributes["qos_ingress"] }}
+            exit
+            collect-stats
+            accounting-policy 10
+        exit
+    exit
+    {% if  service_existance_bol %}
+    service-name "VPRN_{{attributes["description_vpn"]}}"
+     no shutdown
+    {% endif %}
+    static-route-entry {{ ip_lan }}
+        next-hop {{ attributes["ip_vpn_cpe"]}}
+        no shutdown
+    exit
+    {% for ip_lan in attributes["ip_lan_routes"] %}
+    static-route-entry {{ ip_lan }}
+        next-hop {{ attributes["ip_vpn_cpe"]}}
+        no shutdown
+    exit
+    {% endfor %}
+exit

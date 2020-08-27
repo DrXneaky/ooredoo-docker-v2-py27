@@ -1,0 +1,33 @@
+
+configure service vprn 5061 customer 2 create
+{% if  service_existance_bol %}
+    description "VPRN_VoIP-Fixe"
+    autonomous-system 64882
+    route-distinguisher 64882:5061{{device_devices["rd"]}}
+        auto-bind-tunnel
+                resolution-filter
+                    rsvp
+                exit
+                resolution filter
+            exit
+    vrf-target target:64882:5061
+    {% endif %}
+    interface "to_CPE_{{ attributes["interface_name"]}}"  create
+        description "IV CEI;DT_FIXE;VOIP_{{ attributes["interface_name"]}};INCLUDE_SC"
+        address {{attributes["voip_ip_pba"]}}
+        sap {{ attributes["port"]}}:{{attributes["voip_vlan"]}} create
+            ingress
+                qos 10
+            exit
+            egress
+                qos 10
+            exit
+            collect-stats
+            accounting-policy 10
+        exit
+    exit
+    {% if  service_existance_bol %}
+    service-name "VPRN_VoIP-Fixe"
+    no shutdown
+    exit
+    {% endif %}

@@ -1,0 +1,77 @@
+.example-tree-invisible {
+  display: none;
+}
+
+.example-tree ul,
+.example-tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+.btn-success.active.focus, .btn-success.active:focus, .btn-success.focus:active, .btn-success:active:focus, .btn-success:active:hover, .open > .dropdown-toggle.btn-success.focus, .open > .dropdown-toggle.btn-success:focus, .open > .dropdown-toggle.btn-success:hover, .btn-success.focus, .btn-success:focus {
+  background-color: rgb(37, 214, 208);
+  border: 1px solid rgb(37, 214, 208);
+}
+
+#add:hover, #add:active, #add.active, .open>.dropdown-toggle#-add {
+  color: #04b311;
+  border-color: #04b311; /*set the color you want here*/
+}
+
+#delete:hover, #delete:active, #delete.active, .open>.dropdown-toggle#delete {
+  color: #a83434;
+  border-color: #a83434; /*set the color you want here*/
+}
+
+
+.plus {
+  color: #04b311;
+  float: right;
+}
+
+#add {
+  float: center;
+  color: #7d8b92
+}
+
+#delete {
+  float: center;
+  color:#7d8b92
+}
+
+#left {
+  display: inline-block;
+  width: calc(100% - 50px);
+  color: #758086;
+  font-family: inherit;
+  font-family: "Poppins", sans-serif;
+}
+#right {
+  display: inline-block;
+  width: 25px;
+  color: #758086
+}
+
+.mat-icon-rtl-mirror:hover {
+  color: #758086
+}
+ 
+.add-folder-card {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  width: 23%;
+  height: 50px;
+  margin-left:1%;
+  border: dashed thin;
+  color: #758086;
+}
+
+.add-folder-button {
+  display: inline-block;
+  align-items: center;
+  color: #758086;
+  width: 100%;
+  height: 100%
+}

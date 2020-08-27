@@ -1,0 +1,11 @@
+#!/bin/bash
+
+{{command | safe}}
+
+if grep -Fq "Error" /var/log/cronlogs/cron{{id}}.log 
+	then 
+		echo "`date` Error" | tee -a /var/log/cronlogs/cron{{id}}-history.log
+	else
+		echo "`date` Success" | tee -a /var/log/cronlogs/cron{{id}}-history.log
+fi
+

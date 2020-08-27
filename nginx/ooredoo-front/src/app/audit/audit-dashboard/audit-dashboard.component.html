@@ -1,0 +1,116 @@
+<!-- Button Menu -->
+
+<div class="row">
+  <div class="col-12 card-no-border">
+    <div class="card">
+      <div class="card-body">
+        <!--button class="btn btn-success mr-2 " type="button" (click)="addItem('')">
+          <mat-icon>create_new_folder</mat-icon>
+          ADD Item
+        </button-->
+        <!--button class=" btn btn-danger mr-2" type="button" (click)="deleteItem('')">
+          <mat-icon>delete</mat-icon>
+          DELETE Item
+        </button-->
+        <button class="btn btn-outline-dark mr-2 float-right" type="button" [routerLink]="['/audit/cron-job']">
+          Go to CronJob Manager
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Card Items: Dashboard -->
+
+<div class="row">
+  <div class="col-3" *ngFor="let item of navigationCardItems2">
+    <!--<ui-audit-card [config]="item"></ui-audit-card>-->
+    <div class="card">
+      <mat-tree [dataSource]="getDataSource(item)" [treeControl]="treeControl" class="example-tree">
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+          <li class="mat-tree-node">
+            <button mat-icon-button disabled></button>
+            <div id="left" [ngClass]="{pointer: true}" [routerLink]="['/audit/script/' +node.path]">{{node.title}}</div>
+            <button id="right" *ngIf="node.level != 2" mat-icon-button (click)="addItem(node.path)">
+              <i class="material-icons" id="add">create_new_folder</i>
+            </button>
+            <button mat-icon-button id="right" (click)="deleteItem(node.path)">
+              <i class="material-icons" id="delete">delete</i>
+            </button>
+          </li>
+        </mat-tree-node>
+        <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+          <li>
+            <div class="mat-tree-node">
+              <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+                <i class="material-icons">
+                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </i>
+              </button>
+              <div id="left">{{node.title}}</div>
+              <!--div class="container"-->
+              <!--button class="btn float-right plus" (click)="addItem(node.path)">+</button-->
+              <button mat-icon-button id="right" (click)="addItem(node.path)">
+                <i class="material-icons" id="add">create_new_folder</i>
+              </button>
+              <button mat-icon-button id="right" (click)="deleteItem(node.path)">
+                <i class="material-icons" id="delete">delete</i>
+              </button>
+              <!--/div-->
+            </div>
+            <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+              <ng-container matTreeNodeOutlet></ng-container>
+            </ul>
+          </li>
+        </mat-nested-tree-node>
+      </mat-tree>
+    </div>
+  </div>
+
+  <div class="card add-folder-card">
+    <button class="btn add-folder-button" type="button" (click)="addItem('')">
+      <mat-icon>create_new_folder</mat-icon>
+      ADD Item
+    </button>
+  </div>
+</div>
+
+
+
+<!-- ADD/DELETE confirmation Modal -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{action | uppercase}} item</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form class="form-horizontal" [formGroup]="addFormGroup" (ngSubmit)="onSubmit(addFormGroup)">
+    <div class="modal-body">
+      <div class="preview small">
+        <i class="fa fa-info-circle"></i> Please add below the name of the item you wish to {{action}}.
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label></label>
+            <input class="form-control font-13" type="text" formControlName="itemName" placeholder="title">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="row mr-2">
+        <button type="reset" class="btn btn-secondary waves-effect waves-light m-t-10 float-right m-l-10"
+          (click)="modal.close('CANCEL')">Cancel</button>
+        <button type="submit" class="btn btn-info waves-effect waves-light m-t-10 float-right m-l-10"
+          [disabled]="addFormGroup.invalid">{{action | uppercase}}</button>
+      </div>
+    </div>
+  </form>
+  <!-- <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('CANCEL')">Cancel</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('CONFIRM')">Confirm</button>
+  </div> -->
+</ng-template>

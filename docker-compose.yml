@@ -1,0 +1,61 @@
+version: "3.7"
+
+services:
+  web:
+    container_name: web_container
+    restart: always
+    build: ./web/
+    expose:
+      - "8000"
+    volumes:
+      - cronlogs:/var/log/cronlogs
+      - crontabs:/var/spool/cron/crontabs
+      - cronscripts:/usr/local/bin/
+      - ressources:/ressources
+    depends_on:
+      - db
+    links:
+      - db
+    env_file:
+      - ./.env.flask
+    networks:
+      - web_nw
+
+  nginx:
+    container_name: nginx_container
+    restart: always
+    build: ./nginx/
+    ports:
+      - "80:80"
+    networks:
+      - web_nw
+
+  db:
+    image: postgres:11
+    container_name: "postgres_container"
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ooredoo_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgress
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=db_app
+    networks:
+      - web_nw
+
+
+networks:
+  web_nw:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/24
+
+volumes:
+  ooredoo_data:
+  cronlogs:
+  crontabs:
+  cronscripts:
+  ressources:

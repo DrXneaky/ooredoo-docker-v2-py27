@@ -1,0 +1,52 @@
+<div id="main-wrapper" [ngClass]="
+    {
+        'defaultdark': color == 'defaultdark',
+        'greendark': color == 'greendark',
+        'reddark': color == 'reddark',
+        'bluedark': color == 'bluedark',
+        'purpledark': color == 'purpledark',
+        'megnadark': color == 'megnadark',
+        'default': color == 'default',
+        'green': color == 'green',
+        'red': color == 'red',
+        'blue': color == 'blue',
+        'purple': color == 'purple',
+        'megna': color == 'megna', 
+        'mini-sidebar': showMinisidebar,
+        'dark-theme': showDarktheme
+    }
+">
+    <ui-nav-bar></ui-nav-bar>
+    <aside class="left-sidebar">
+        <!-- Sidebar scroll-->
+        <div class="scroll-sidebar" [perfectScrollbar]="config">
+            <ui-side-bar></ui-side-bar>
+        </div>
+        <!-- End Sidebar scroll-->
+    </aside>
+
+    <div class="page-wrapper">
+        <ui-bread-crumb></ui-bread-crumb>
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <footer class="footer">
+        © 2019 xxxxx by ooredoo Tunisia.
+    </footer>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
+
+</div>

@@ -1,0 +1,968 @@
+PE9119
+===============
+sap-ingress 1004 create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate 4000
+    exit
+    queue 3 create
+        rate 4000
+    exit
+    queue 4 create
+        rate 4000
+    exit
+    queue 5 create
+        rate 4000
+    exit
+    queue 6 create
+        rate 4000
+    exit
+    queue 8 create
+        rate 4000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit
+
+
+
+sap-ingress 1004 create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate 4000
+    exit
+    queue 3 create
+        rate 4000
+    exit
+    queue 4 create
+        rate 4000
+    exit
+    queue 5 create
+        rate 4000
+    exit
+    queue 6 create
+        rate 4000
+    exit
+    queue 8 create
+        rate 4000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit
+
+filter
+     match-list
+     ip-prefix-list "CPM-OSPF"
+            prefix 10.251.119.20/30
+    exit
+
+configure service vprn  customer 2 create
+        
+        description "VPRN_Groupe Hachicha"
+        autonomous-system 64882
+        route-distinguisher 64882:034
+        auto-bind-tunnel
+                    resolution-filter
+                        rsvp
+                    exit
+                    resolutions
+                exit
+        vrf-target target:64882:
+        
+        interface "to_CPE_Hachicha_-_Randa" create
+            description "IV CEI;DT_FIXE;VPN_Groupe Hachicha;INCLUDE_SC"
+            address 10.251.119.21/30	
+            sap LAG-2:854 create
+                ingress
+                    qos 1004
+                exit
+                egress
+                    qos 1004
+                exit
+                collect-stats
+                accounting-policy 10
+            exit
+        exit
+        ospf
+            export "from-BGPVPN-to-OSPF"
+            area 0.0.0.0
+                interface "to_CPE_Hachicha_-_Randa"
+                    interface-type point-to-point
+                    mtu 1500
+                    authentication-type message-digest
+                    message-digest-key 1 md5 Hachicha_PaSs
+                exit
+            exit
+        exit
+    
+    service-name "VPRN_Groupe Hachicha"
+    no shutdown
+    
+exit
+
+
+sap-ingress 1006 create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate 6000
+    exit
+    queue 3 create
+        rate 6000
+    exit
+    queue 4 create
+        rate 6000
+    exit
+    queue 5 create
+        rate 6000
+    exit
+    queue 6 create
+        rate 6000
+    exit
+    queue 8 create
+        rate 6000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit
+
+
+
+sap-ingress 1006 create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate 6000
+    exit
+    queue 3 create
+        rate 6000
+    exit
+    queue 4 create
+        rate 6000
+    exit
+    queue 5 create
+        rate 6000
+    exit
+    queue 6 create
+        rate 6000
+    exit
+    queue 8 create
+        rate 6000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit
+
+configure service ies 9500 customer 4 create
+
+    description "INTERNET_SERVICE"
+    autonomous-system 64882
+    route-distinguisher 64882:9500034
+    auto-bind-tunnel
+                resolution-filter
+                    rsvp
+                exit
+                resolutions
+            exit
+    vrf-target target:64882:9500
+    
+    interface "to_CPE_Hachicha_-_Randa" create
+        description "IV CEI;DT_FIXE;HSI_Hachicha_-_Randa;INCLUDE_SC"
+        address 10.223.250.153/30	
+        sap LAG-2:852 create
+            ingress
+                qos 1006
+            exit
+            egress
+                qos 1006
+            exit
+            collect-stats
+            accounting-policy 10
+        exit
+    exit
+    
+    service-name "INTERNET_SERVICE"
+    no shutdown
+    
+exit
+
+static-route-entry  197.14.1.36/31
+    next-hop 10.223.250.154
+    no shutdown
+    exit
+exit
+
+
+sap-ingress 1006 create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate 6000
+    exit
+    queue 3 create
+        rate 6000
+    exit
+    queue 4 create
+        rate 6000
+    exit
+    queue 5 create
+        rate 6000
+    exit
+    queue 6 create
+        rate 6000
+    exit
+    queue 8 create
+        rate 6000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit
+
+
+
+sap-ingress 1006 create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate 6000
+    exit
+    queue 3 create
+        rate 6000
+    exit
+    queue 4 create
+        rate 6000
+    exit
+    queue 5 create
+        rate 6000
+    exit
+    queue 6 create
+        rate 6000
+    exit
+    queue 8 create
+        rate 6000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit
+
+configure service ies 9500 customer 4 create
+
+    description "INTERNET_SERVICE"
+    autonomous-system 64882
+    route-distinguisher 64882:9500034
+    auto-bind-tunnel
+                resolution-filter
+                    rsvp
+                exit
+                resolutions
+            exit
+    vrf-target target:64882:9500
+    
+    interface "to_CPE_Hachicha_-_Randa" create
+        description "IV CEI;DT_FIXE;HSI_Hachicha_-_Randa;INCLUDE_SC"
+        address 10.223.254.137
+        sap :854 create
+            ingress
+                qos 1006
+            exit
+            egress
+                qos 1006
+            exit
+            collect-stats
+            accounting-policy 10
+        exit
+    exit
+    
+    service-name "INTERNET_SERVICE"
+    no shutdown
+    
+exit
+
+static-route-entry  197.14.1.36/31
+    next-hop 10.223.254.138
+    no shutdown
+    exit
+exit
+
+
+sap-ingress 1004 create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate 4000
+    exit
+    queue 3 create
+        rate 4000
+    exit
+    queue 4 create
+        rate 4000
+    exit
+    queue 5 create
+        rate 4000
+    exit
+    queue 6 create
+        rate 4000
+    exit
+    queue 8 create
+        rate 4000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit
+
+
+
+sap-ingress 1004 create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate 4000
+    exit
+    queue 3 create
+        rate 4000
+    exit
+    queue 4 create
+        rate 4000
+    exit
+    queue 5 create
+        rate 4000
+    exit
+    queue 6 create
+        rate 4000
+    exit
+    queue 8 create
+        rate 4000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit
+
+filter
+     match-list
+     ip-prefix-list "CPM-OSPF"
+            prefix 10.251.148.36/30
+    exit
+
+configure service vprn  customer 2 create
+        
+        description "VPRN_Groupe Hachicha"
+        autonomous-system 64882
+        route-distinguisher 64882:034
+        auto-bind-tunnel
+                    resolution-filter
+                        rsvp
+                    exit
+                    resolutions
+                exit
+        vrf-target target:64882:
+        
+        interface "to_CPE_Hachicha_-_Randa" create
+            description "IV CEI;DT_FIXE;VPN_Groupe Hachicha;INCLUDE_SC"
+            address 10.251.148.37/30	
+            sap :883 create
+                ingress
+                    qos 1004
+                exit
+                egress
+                    qos 1004
+                exit
+                collect-stats
+                accounting-policy 10
+            exit
+        exit
+        ospf
+            export "from-BGPVPN-to-OSPF"
+            area 0.0.0.0
+                interface "to_CPE_Hachicha_-_Randa"
+                    interface-type point-to-point
+                    mtu 1500
+                    authentication-type message-digest
+                    message-digest-key 1 md5 Hachicha_PaSs
+                exit
+            exit
+        exit
+    
+    service-name "VPRN_Groupe Hachicha"
+    no shutdown
+    
+exit
+
+
+sap-ingress 1010 create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate 10000
+    exit
+    queue 3 create
+        rate 10000
+    exit
+    queue 4 create
+        rate 10000
+    exit
+    queue 5 create
+        rate 10000
+    exit
+    queue 6 create
+        rate 10000
+    exit
+    queue 8 create
+        rate 10000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit
+
+
+
+sap-ingress 1010 create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate 10000
+    exit
+    queue 3 create
+        rate 10000
+    exit
+    queue 4 create
+        rate 10000
+    exit
+    queue 5 create
+        rate 10000
+    exit
+    queue 6 create
+        rate 10000
+    exit
+    queue 8 create
+        rate 10000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit
+
+configure service vprn 5101 customer 2 create
+    
+        description "VPRN_OM_Corporate"
+        autonomous-system 64882
+        route-distinguisher 64882:5101034
+        auto-bind-tunnel
+                    resolution-filter
+                        rsvp
+                    exit
+                    resolutions
+                exit
+        vrf-target target:64882:5101
+        
+            interface "to_CPE_Hachicha_-_Randa"  create
+                description "IV CEI;DT_FIXE;OM_Hachicha_-_Randa;INCLUDE_SC"
+                address 10.221.148.37
+                sap :855 create
+                    ingress
+                        qos 1010
+                    exit
+                    egress
+                        qos 1010
+                    exit
+                    collect-stats
+                    accounting-policy 10
+                exit
+            exit
+             
+            service-name "OM_Corporate"
+            no shutdown
+            
+        static-route-entry 10.221.255.163
+            next-hop 10.221.148.38
+                no shutdown
+            exit
+        exit
+ exit
+
+sap-ingress 1010 create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate 10000
+    exit
+    queue 3 create
+        rate 10000
+    exit
+    queue 4 create
+        rate 10000
+    exit
+    queue 5 create
+        rate 10000
+    exit
+    queue 6 create
+        rate 10000
+    exit
+    queue 8 create
+        rate 10000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit
+
+
+
+sap-ingress 1010 create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate 10000
+    exit
+    queue 3 create
+        rate 10000
+    exit
+    queue 4 create
+        rate 10000
+    exit
+    queue 5 create
+        rate 10000
+    exit
+    queue 6 create
+        rate 10000
+    exit
+    queue 8 create
+        rate 10000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit
+
+configure service vprn 5101 customer 2 create
+    
+        description "VPRN_OM_Corporate"
+        autonomous-system 64882
+        route-distinguisher 64882:5101034
+        auto-bind-tunnel
+                    resolution-filter
+                        rsvp
+                    exit
+                    resolutions
+                exit
+        vrf-target target:64882:5101
+        
+            interface "to_CPE_Hachicha_-_Randa"  create
+                description "IV CEI;DT_FIXE;OM_Hachicha_-_Randa;INCLUDE_SC"
+                address 10.221.119.25/30
+                sap LAG-2:853 create
+                    ingress
+                        qos 1010
+                    exit
+                    egress
+                        qos 1010
+                    exit
+                    collect-stats
+                    accounting-policy 10
+                exit
+            exit
+             
+            service-name "OM_Corporate"
+            no shutdown
+            
+        static-route-entry 10.221.253.95/32	
+            next-hop 10.221.119.26
+                no shutdown
+            exit
+        exit
+ exit
+

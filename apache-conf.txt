@@ -1,0 +1,30 @@
+<VirtualHost *:80>
+        ServerName localhost
+        ServerAdmin localhost
+
+	WSGIScriptAlias /api ~/ooredoo-docker-v0-py27/web/app.wsgi
+	<Directory ~/ooredoo-docker-v0-py27/web>
+		Options FollowSymlinks
+		AllowOverride None
+		Require all granted
+	</Directory>	
+
+        DocumentRoot /var/www/html/dist
+        <Directory /var/www/html/dist>
+                AllowOverride All
+                Allow from all
+                Require all granted
+                Order allow,deny
+                <IfModule mod_rewrite.c>
+                        RewriteEngine On
+                        RewriteBase /
+
+                        RewriteCond %{REQUEST_FILENAME} !-f
+                        RewriteCond %{REQUEST_FILENAME} !-d
+                        RewriteRule ^(.+)$ index.html?path=$1 [L]
+                </IfModule>
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>

@@ -1,0 +1,37 @@
+<div [ngClass]="{'alert-success alert': success === 'su', 'alert alert-danger':failed === 'failed' }">{{message}}</div>
+
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm)">
+  <div class="form-group input-group">
+    <input name="" class="form-control" placeholder="Role name" type="text" formControlName="name">
+  </div>
+  <div class="form-group input-group">
+    <input name="" class="form-control" placeholder="description" type="email" formControlName="description">
+  </div>
+  <div class="form-group">
+
+    <button type="submit" [disabled]="loading" class="btn btn-primary">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Create role </button>
+
+  </div>
+</form>
+
+<nao-role-lists [roles]=roles (actionClick)="onActionClick($event)"></nao-role-lists>
+
+<!-- Delete confirmation modal -->
+<ng-template #content let-modal>
+  <div class="modal-header ">
+    <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <!-- <span aria-hidden="true">&times;</span> -->
+      <i class="material-icons">&#xE5CD;</i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center text-primary">Are you sure ypu want to delete </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('CANCEL')">Cancel</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('CONFIRM')">Confirm</button>
+  </div>
+</ng-template>

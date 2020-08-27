@@ -1,0 +1,22 @@
+#### dev machine
+
+mkdir dependencies
+pip download -r requirements.txt -d dependencies
+tar -zcf dependencies.tar.gz dependencies
+
+
+###prod machine
+option1:
+RUN tar -zxf dependencies.tar.gz
+RUN cd dependencies
+RUN pip install * -f ./ --no-index
+
+
+option2:
+tar -zxf dependencies.tar.gz
+pip install -r dependencies/requirements.txt --no-index --find-links dependencies
+
+
+sudo docker exec -i e6be55e9f235 /bi/bash
+nameserver 10.203.94.144
+nameserver 10.204.94.144

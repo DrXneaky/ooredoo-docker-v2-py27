@@ -1,0 +1,7 @@
+before_install:
+  - openssl aes-256-cbc -K $encrypted_c898d3f5b1f3_key -iv $encrypted_c898d3f5b1f3_iv -in deply_key.enc -out ./deply_key -d
+  - eval "$(ssh-agent -s)"
+  - chmod 600 ./deply_key
+  - echo -e "Host $SERVER_IP_ADDRESS\n\tStrictKeyCheking no\n"  >> ~/.ssh/config
+  - ssh-add ./deply_key
+  - ssh -i ./deply_key miladi@4a17216a.ngrok.io pwd

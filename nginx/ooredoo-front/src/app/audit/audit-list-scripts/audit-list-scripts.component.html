@@ -1,0 +1,62 @@
+<div class="row">
+  <!-- column -->
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Scripts Table</h4>
+        <h6 class="card-subtitle">
+          <div class="preview">
+            <i class="fa fa-info-circle"></i> Here you find all the scripts.
+          </div>
+        </h6>
+        <div class="table-responsive">
+          <table class="table table-generic">
+            <thead>
+              <tr>
+                <th class="table-th">Script</th>
+                <th class="text-center table-th">Creation Date</th>
+                <!--th class="text-center table-th">Device List</!--th-->
+                <th class="text-center table-th">Status</th>
+                <th class="text-center table-th">Report</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="scripts && scripts.length !== 0">
+                <tr *ngFor="let script of scripts">
+                  <td>{{ script.scriptName }}</td>
+                  <td class="text-center">{{ script.creationDate | date: "yyyy-MM-dd hh:mm:ss" }}</td>
+                  <!--td class="text-center">{{ script.deviceList }}</!--td-->
+                  <td class="text-center">{{ script.status }}</td>
+                  <td class="td-action-border text-center align-middle">
+                    <i class="icon-book-open round-icon m-r-5 pointer round-icon-hover"
+                      (click)="onClick('REPORT', script)"></i>
+                    <i class="icon-reload round-icon m-r-5 pointer round-icon-hover"
+                      (click)="onClick('RUN', script)"></i>
+                    <i class="icon-paper-plane round-icon m-r-5 pointer round-icon-hover"
+                      (click)="onClick('PDF', script)"></i>
+                    <i class="icon-compass round-icon m-r-5 pointer round-icon-hover"
+                      (click)="onClick('DEVICE', script)"></i>
+                  </td>
+                </tr>
+              </ng-container>
+
+              <ng-container>
+                <tr *ngIf="!scripts || scripts.length === 0">
+                  <td colspan="5">No Data</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <div class="row justify-content-center m-t-15">
+
+          <!-- Pagination  -->
+          <ngb-pagination [collectionSize]="pages * 10" [(page)]="page" [maxSize]="3" [boundaryLinks]="true"
+            (pageChange)="onPageChange($event)">
+          </ngb-pagination>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="card" [routerLink]="config.disabled? null : [config.path]">
+    <div class="card-body" [ngClass]="{'card-disabled': config.disabled, 'pointer':!config.disabled}">
+        <div class="row">
+            <div class="col-10">
+                <h2 class="font-light">{{config.title}}</h2>
+                <h6 class="text-muted">{{config.description}}</h6>
+            </div>
+            <div class="col-2">
+                <div class="display-4 float-right"><i [ngClass]="config.icon"></i></div>
+            </div>
+        </div>
+    </div>
+</div>

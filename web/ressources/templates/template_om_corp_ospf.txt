@@ -1,0 +1,55 @@
+
+    filter
+         match-list
+         ip-prefix-list "CPM-OSPF"
+                prefix {{ ip_lan}}
+        exit
+     exit
+    configure router policy-options
+            begin
+      prefix-list "ospf-LoopbackOM"
+           prefix %s exact
+      exit
+    policy-statement "from_LoopbackOM-OSPF_to_BGPVPN"
+    exit
+    configure service vprn 5101 customer 2
+        description "VPRN_OM_Corporate"
+        autonomous-system 64882
+        route-distinguisher 64882:5101{{ device_devices["rd"]}}
+        auto-bind-tunnel
+            resolution-filter
+                rsvp
+            exit
+            resolution filter
+        exit
+        vrf-target target:64882:5101
+        interface "to_CPE_%s" create
+            description "IV CEI;DT_FIXE;OM_%s;INCLUDE_SC"
+            address %s
+            sap %s:%s create
+                ingress
+                    qos 1010
+                exit
+                egress
+                    qos 1010
+                exit
+                collect-stats
+                accounting-policy 10
+            exit
+        exit
+
+            ospf
+                export "from_OM-BGPVPN_to_OSPF"
+                import "from_LoopbackOM-OSPF_to_BGPVPN"
+                area 0.0.0.0
+                interface "to_CPE_%s"
+                    interface-type point-to-point
+                    mtu 1500
+                    authentication-type message-digest
+                    message-digest-key 1 md5 %s
+                    no shutdown
+
+                exit
+            exit
+        exit
+    exit

@@ -1,0 +1,118 @@
+
+
+        ==================
+
+        configure service vprn  customer 2 create
+            interface "to_CPE_SITPEC_H.ouali" create
+                description "IV CEI;DT_FIXE;VPN_SITPEC_H.ouali;INCLUDE_SC"
+                address 10.251.191.9/30
+                sap LAG-2:854 create
+                    ingress
+                        qos 10
+                    exit
+                    egress
+                        qos 10
+                    exit
+                    collect-stats
+                    accounting-policy 10
+                exit
+            exit
+        
+
+        exit
+
+         
+
+                static-route-entry  next-hop 10.251.191.10/30
+                    no shutdown
+                exit
+
+            
+
+        ==================
+
+
+        configure service ies 9500 customer 4 create
+                    description "INTERNET_SERVICE"
+                    interface "to_CPE_SITPEC_H.ouali" create
+                        description "IV CEI;DT_FIXE;HSI_SITPEC_H.ouali;INCLUDE_SC"
+                        address 10.223.251.77/30
+                        sap LAG-2:852 create
+                            ingress
+                                qos None
+                            exit
+                            egress
+                                qos None
+                            exit
+                            collect-stats
+                            accounting-policy 10
+                        exit
+                    exit
+                    service-name "INTERNET_SERVICE"
+                    no shutdown
+                exit
+
+        static-route-entry 197.14.55.74/31 next-hop 10.223.251.78/30
+            no shutdown
+            exit
+
+        
+
+            filter 
+             match-list
+             ip-prefix-list "CPM-OSPF"
+                    prefix 10.221.191.12/30 
+
+            exit
+            
+
+        configure router policy-options
+            begin
+            
+            prefix-list "ospf-LoopbackOM"
+                prefix 10.220.255.182/32 exact
+            exit
+            
+ 	 commit 
+ exit
+
+
+
+        ==================
+
+        configure service vprn 5101 customer 2
+
+            interface "to_CPE_SITPEC_H.ouali" create
+                description "IV CEI;DT_FIXE;OM_SITPEC_H.ouali;INCLUDE_SC"
+                address 10.221.191.13/30
+                sap LAG-2:853 create
+                    ingress
+                    qos 10
+                    exit
+                    egress
+                    qos 10
+                    exit
+                    collect-stats
+                    accounting-policy 10
+                exit
+            exit
+
+                ospf
+                    export "from_OM-BGPVPN_to_OSPF"
+                    import "from_LoopbackOM-OSPF_to_BGPVPN"
+                    area 0.0.0.0
+                        interface "to_CPE_SITPEC_H.ouali"
+                            interface-type point-to-point
+                            mtu 1500
+                            authentication-type message-digest
+                            message-digest-key 1 md5 
+                            no shutdown
+
+                        exit
+                    exit
+                exit
+            exit
+        exit
+
+
+        

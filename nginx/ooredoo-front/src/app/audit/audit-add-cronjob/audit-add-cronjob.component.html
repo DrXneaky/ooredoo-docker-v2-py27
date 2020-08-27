@@ -1,0 +1,244 @@
+<form class="form-horizontal m-t-40" [formGroup]="cronJobFormGroup" (ngSubmit)="onSubmit(cronJobFormGroup)">
+  <div class="row">
+    <div class="col-sm-12 card-no-border">
+      <div class="card">
+        <div class="card-header bg-header header-no-border">
+          <h4 class="card-title m-b-0">Cronjob Scheduler</h4>
+        </div>
+        <div class="card-body">
+          <h6 class="card-subtitle">
+            <div class="preview p-b-15 p-t-15">
+              <i class="icon-info round-icon"></i> Please fill in the cronjob
+              details.
+            </div>
+          </h6>
+          <div>
+            <div class="row">
+              <div class="col-2">
+                <div class="form-group">
+                  <ng-template #tipContentMinute>* &nbsp; any value<br> , &nbsp; value list separator<br> - &nbsp; range
+                    of values<br>/ &nbsp; step values<br>Allowed values: 0-59 </ng-template>
+                  <label placement="right" [ngbTooltip]=tipContentMinute tooltipClass="my-custom-class">Minute</label>
+                  <input class="form-control font-13" type="text" formControlName="Minute" placeholder="*" />
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <ng-template #tipContentHour>'*' any value<br> ',' value list separator<br> '-' range of values<br>
+                    '/' step
+                    values<br>Allowed values: 0-23 </ng-template>
+                  <label placement="right" [ngbTooltip]=tipContentHour tooltipClass="my-custom-class">Hour</label>
+                  <input class="form-control font-13" type="text" formControlName="Hour" placeholder="*" />
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <ng-template #tipContentDay>'*' any value<br> ',' value list separator<br> '-' range of values<br> '/'
+                    step
+                    values<br>Allowed values: 1-31 </ng-template>
+                  <label placement="right" [ngbTooltip]=tipContentDay tooltipClass="my-custom-class">Day</label>
+                  <input class="form-control font-13" type="text" formControlName="Day" placeholder="*" />
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <ng-template #tipContentMonth>'*' any value<br> ',' value list separator<br> '-' range of values<br>
+                    '/' step
+                    values<br>Allowed values: 1-21<br>Alternative single value: JAN-DEC </ng-template>
+                  <label placement="right" [ngbTooltip]=tipContentMonth tooltipClass="my-custom-class">Month</label>
+                  <input class="form-control font-13" type="text" formControlName="Month" placeholder="*" />
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <ng-template #tipContentWeekday>'*' any value<br> ',' value list separator<br> '-' range of values<br>
+                    '/' step
+                    values<br>Allowed values: 0-6<br>Alternative single value: SUN-SAT </ng-template>
+                  <label placement="right" [ngbTooltip]=tipContentWeekday tooltipClass="my-custom-class">Weekday</label>
+                  <input class="form-control font-13" type="text" formControlName="Weekday" placeholder="*" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+            </div>
+            <div class="row">
+              <div class="col-2">
+                <div class="form-group">
+                  <label style="color: #ffffff;">Minute</label>
+                  <select class="custom-select col-12 font-13" formControlName="MinuteSelect"
+                    id="inlineFormCustomSelect">
+                    <option value="0" selected disabled>Choose option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <label style="color: #ffffff;">Hour</label>
+                  <select class="custom-select col-12 font-13" formControlName="HourSelect" id="inlineFormCustomSelect">
+                    <option value="0" selected disabled>Choose option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <label style="color: #ffffff;">Day</label>
+                  <select class="custom-select col-12 font-13" formControlName="DaySelect" id="inlineFormCustomSelect">
+                    <option value="0" selected disabled>Choose option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <label style="color: #ffffff;">Month</label>
+                  <select class="custom-select col-12 font-13" formControlName="MonthSelect"
+                    id="inlineFormCustomSelect">
+                    <option value="0" selected disabled>Choose option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <label style="color: #ffffff;">Weekday</label>
+                  <select class="custom-select col-12 font-13" formControlName="WeekdaySelect"
+                    id="inlineFormCustomSelect">
+                    <option value="0" selected disabled>Choose option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <button type="button" (click)="onClick(cronJobFormGroup)"
+                    class="btn btn-secondary waves-effect waves-light m-t-20 m-l-27">
+                    Check Crontab syntax
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <div class="form-group">
+                <label>Schedule</label>
+                <input class="form-control font-13" type="text" formControlName="convertedText" placeholder=""
+                  disabled />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <div class="form-group">
+                <label>Command </label>
+                <input class="form-control font-13" type="text" formControlName="Command"
+                  placeholder="Type command here" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4">
+              <div class="form-group">
+                <label>Type</label>
+                <select class="custom-select col-12 font-13" formControlName="Type" id="inlineFormCustomSelect">
+                  <option value="0" selected disabled>Choose option</option>
+                  <option value="Protocols">Protocols</option>
+                  <option value="Peering Rules">Peering Rules</option>
+                  <option value="QoS">QoS</option>
+                  <option value="Other features">Other features</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4">
+              <div class="form-group">
+                <label>Log Method</label><br>
+                <mat-checkbox class="m-r-10" formControlName="sendMail" value="sendMail">Send Email</mat-checkbox>
+                <mat-checkbox formControlName="logFile" value="LogFile">Log File</mat-checkbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-10">
+              <div class="form-group">
+                <label>Description </label>
+                <h6 class="card-subtitle">
+                  <div class="preview p-t-10">
+                    <i class="fa fa-info-circle"></i> If you select the 'Send Email' log option this description
+                    will
+                    be used
+                    as a subject for the email.
+                  </div>
+                </h6>
+                <input class="form-control font-13 col-5" type="text" formControlName="Description"
+                  placeholder="Type Description here" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <button type="reset" class="btn btn-secondary waves-effect waves-light m-t-10 float-right m-l-10">
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-info waves-effect waves-light m-t-10 float-right m-l-10">
+                Add Cron Job
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Cronjob List -->
+  <ui-audit-list-cronjobs [cronJobs]="cronJobs" [pages]="pages" (pageChange)="onPageChange($event)"
+    (actionClick)="onActionClick($event)">
+  </ui-audit-list-cronjobs>
+
+
+  <div class="row">
+    <div class="col-12 card-no-border">
+      <div class="card">
+        <div class="card-body">
+          <button class="btn btn-outline-dark" type="button" [routerLink]="'/audit/dashboard'">
+            Previous
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<!-- Delete confirmation modal -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center text-primary">Are you sure you want to {{action}} this cronjob (id : {{cronJob.id}})</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('CANCEL')">Cancel</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('CONFIRM')">Confirm</button>
+  </div>
+</ng-template>

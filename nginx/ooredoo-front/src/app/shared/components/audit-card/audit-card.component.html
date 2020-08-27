@@ -1,0 +1,47 @@
+<!-- <div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="font-light">{{ config.title }}</h2>
+        <h6 class="text-muted">{{ config.description }}</h6>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" [ngClass]="{
+              'card-disabled': config.disabled,
+              pointer: !config.disabled
+            }" *ngFor="let child of config.children" [routerLink]="config.disabled? null : [child.path]">
+            {{ child.title }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="card">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ config.title }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" [ngClass]="{
+          'card-disabled': config.disabled,
+          pointer: !config.disabled
+        }" *ngFor="let child of config.children">
+          <div>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ child.title }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>item1</p>
+            </mat-expansion-panel>
+          </div>
+        </li>
+      </ul>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

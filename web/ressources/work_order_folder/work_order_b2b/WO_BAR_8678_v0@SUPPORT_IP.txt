@@ -1,0 +1,158 @@
+PE9077
+===============
+
+        sap-ingress 1010 create
+                    description "DSCP Marked Traffic and rate limiting for B2B clients"
+                    queue 1 create
+                        rate 10000
+                    exit
+                    queue 3 create
+                        rate 10000
+                    exit
+                    queue 4 create
+                        rate 10000
+                    exit
+                    queue 5 create
+                        rate 10000
+                    exit
+                    queue 6 create
+                        rate 10000
+                    exit
+                    queue 8 create
+                        rate 10000
+                    exit
+                    queue 11 multipoint create
+                    exit
+                    fc "af" create
+                        queue 3
+                    exit
+                    fc "be" create
+                        queue 1
+                    exit
+                    fc "ef" create
+                        queue 6
+                    exit
+                    fc "h2" create
+                        queue 5
+                    exit
+                    fc "l1" create
+                        queue 4
+                    exit
+                    fc "nc" create
+                        queue 8
+                    exit
+                    dscp be fc "be" priority low
+                    dscp ef fc "ef" priority high
+                    dscp nc1 fc "nc" priority high
+                    dscp nc2 fc "nc" priority high
+                    dscp af11 fc "af" priority high
+                    dscp af12 fc "af" priority low
+                    dscp af13 fc "af" priority low
+                    dscp af21 fc "l1" priority high
+                    dscp af22 fc "l1" priority low
+                    dscp af23 fc "l1" priority low
+                    dscp af31 fc "l1" priority high
+                    dscp af32 fc "l1" priority low
+                    dscp af33 fc "l1" priority low
+                    dscp af41 fc "h2" priority high
+                    dscp af42 fc "h2" priority low
+                    dscp af43 fc "h2" priority low
+                exit
+
+
+
+        sap-ingress 1010 create
+                    description "DSCP Marked Traffic and rate limiting for B2B clients"
+                    queue 1 create
+                        rate 10000
+                    exit
+                    queue 3 create
+                        rate 10000
+                    exit
+                    queue 4 create
+                        rate 10000
+                    exit
+                    queue 5 create
+                        rate 10000
+                    exit
+                    queue 6 create
+                        rate 10000
+                    exit
+                    queue 8 create
+                        rate 10000
+                    exit
+                    queue 11 multipoint create
+                    exit
+                    fc "af" create
+                        queue 3
+                    exit
+                    fc "be" create
+                        queue 1
+                    exit
+                    fc "ef" create
+                        queue 6
+                    exit
+                    fc "h2" create
+                        queue 5
+                    exit
+                    fc "l1" create
+                        queue 4
+                    exit
+                    fc "nc" create
+                        queue 8
+                    exit
+                    dscp be fc "be" priority low
+                    dscp ef fc "ef" priority high
+                    dscp nc1 fc "nc" priority high
+                    dscp nc2 fc "nc" priority high
+                    dscp af11 fc "af" priority high
+                    dscp af12 fc "af" priority low
+                    dscp af13 fc "af" priority low
+                    dscp af21 fc "l1" priority high
+                    dscp af22 fc "l1" priority low
+                    dscp af23 fc "l1" priority low
+                    dscp af31 fc "l1" priority high
+                    dscp af32 fc "l1" priority low
+                    dscp af33 fc "l1" priority low
+                    dscp af41 fc "h2" priority high
+                    dscp af42 fc "h2" priority low
+                    dscp af43 fc "h2" priority low
+                exit
+
+configure service vprn 5101 customer 2 create
+        description "VPRN_OM_Corporate"
+        autonomous-system 64882
+        route-distinguisher 64882:160
+        auto-bind-tunnel
+                    resolution-filter
+                        rsvp
+                    exit
+                    resolutions
+                exit
+        vrf-target target:64882:5101
+        
+            interface "to_CPE_St�_Logistic_Car_DATA_Kia_Mhamdia"  create
+                description "IV CEI;DT_FIXE;OM_St�_Logistic_Car_DATA_Kia_Mhamdia;INCLUDE_SC"
+                address 10.221.77.61/30
+                sap lag-1:867 create
+                    ingress
+                        qos 1010
+                    exit
+                    egress
+                        qos 1010
+                    exit
+                    collect-stats
+                    accounting-policy 10
+                exit
+            exit
+             
+            service-name "OM_Corporate"
+            no shutdown
+            
+        static-route-entry 10.221.243.162/32
+            next-hop 10.221.77.62
+                no shutdown
+            exit
+        exit
+ exit
+

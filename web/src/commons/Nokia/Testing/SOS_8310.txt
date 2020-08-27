@@ -1,0 +1,95 @@
+SOS_8310
+helloNormal
+TRUE
+
+        ==================
+
+        configure service vprn  customer 2 create
+            interface "to_CPE_Agence_M'saken_" create
+                description "IV CEI;DT_FIXE;VPN_Agence_M'saken_;INCLUDE_SC"
+                address 10.251.189.5/30
+                sap LAG-1:851 create
+                    ingress
+                        qos None
+                    exit
+                    egress
+                        qos None
+                    exit
+                    collect-stats
+                    accounting-policy 10
+                exit
+            exit
+            ospf
+                export "from-BGPVPN-to-OSPF"
+                area 0.0.0.0
+                    interface "to_CPE_BNA_Agence_M'saken_"
+                        interface-type point-to-point
+                        mtu 1500
+                        authentication-type message-digest
+                        message-digest-key 1 md5 UBCI_PaSs
+                    exit
+                exit
+            exit
+
+        exit
+
+        
+
+            filter 
+             match-list
+             ip-prefix-list "CPM-OSPF"
+                    prefix 10.221.189.8/30 
+
+            exit
+            
+
+        configure router policy-options
+            begin
+            
+            prefix-list "ospf-LoopbackOM"
+                prefix 10.220.255.247/32	 exact
+            exit
+            
+ 	 commit 
+ exit
+
+
+
+        ==================
+
+        configure service vprn 5101 customer 2
+
+            interface "to_CPE_Agence_M'saken_" create
+                description "IV CEI;DT_FIXE;OM_Agence_M'saken_;INCLUDE_SC"
+                address 10.221.189.9/30
+                sap LAG-1:851 create
+                    ingress
+                    qos 10
+                    exit
+                    egress
+                    qos 10
+                    exit
+                    collect-stats
+                    accounting-policy 10
+                exit
+            exit
+
+                ospf
+                    export "from_OM-BGPVPN_to_OSPF"
+                    import "from_LoopbackOM-OSPF_to_BGPVPN"
+                    area 0.0.0.0
+                        interface "to_CPE_Agence_M'saken_"
+                            interface-type point-to-point
+                            mtu 1500
+                            authentication-type message-digest
+                            message-digest-key 1 md5 
+                            no shutdown
+
+                        exit
+                    exit
+                exit
+            exit
+        exit
+
+
+        

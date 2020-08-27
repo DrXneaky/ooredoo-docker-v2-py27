@@ -1,0 +1,41 @@
+
+configure service ies 9500 customer 4 create
+{% if  service_existance_bol %}
+    description "INTERNET_SERVICE"
+    autonomous-system 64882
+    route-distinguisher 64882:9500{{device_devices["rd"]}}
+    auto-bind-tunnel
+                resolution-filter
+                    rsvp
+                exit
+                resolutions
+            exit
+    vrf-target target:64882:{{ attributes["serviceid"] }}
+    {% else %}
+    {% endif %}
+    interface "to_CPE_{{ attributes["interface_name"]}}" create
+        description "IV CEI;DT_FIXE;HSI_{{attributes["interface_name"]}};INCLUDE_SC"
+        address {{ attributes["hsi_ip_pba"] }}
+        sap {{ attributes["port"]}}:{{ attributes["hsi_vlan"]}} create
+            ingress
+                qos {{ attributes["qos_ingress"] }}
+            exit
+            egress
+                qos {{ attributes["qos_ingress"] }}
+            exit
+            collect-stats
+            accounting-policy 10
+        exit
+    exit
+    {% if  service_existance_bol %}
+    service-name "INTERNET_SERVICE"
+    no shutdown
+    {% endif %}
+exit
+{% for publicip in attributes["public_ip"] %}
+static-route-entry {{ publicip }}
+    next-hop {{ attributes["ip_hsi_cpe"] }}
+    no shutdown
+    exit
+exit
+{% endfor %}

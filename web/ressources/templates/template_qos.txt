@@ -1,0 +1,117 @@
+sap-ingress {{ attributes["qos_ingress"] }} create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate {{ qos }}000
+    exit
+    queue 3 create
+        rate {{ qos }}000
+    exit
+    queue 4 create
+        rate {{ qos }}000
+    exit
+    queue 5 create
+        rate {{ qos }}000
+    exit
+    queue 6 create
+        rate {{ qos }}000
+    exit
+    queue 8 create
+        rate {{qos}}000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit
+
+
+
+sap-ingress {{ attributes["qos_ingress"] }} create
+    description "DSCP Marked Traffic and rate limiting for B2B clients"
+    queue 1 create
+        rate {{ qos }}000
+    exit
+    queue 3 create
+        rate {{ qos}}000
+    exit
+    queue 4 create
+        rate {{ qos }}000
+    exit
+    queue 5 create
+        rate {{ qos}}000
+    exit
+    queue 6 create
+        rate {{ qos }}000
+    exit
+    queue 8 create
+        rate {{ qos }}000
+    exit
+    queue 11 multipoint create
+    exit
+    fc "af" create
+        queue 3
+    exit
+    fc "be" create
+        queue 1
+    exit
+    fc "ef" create
+        queue 6
+    exit
+    fc "h2" create
+        queue 5
+    exit
+    fc "l1" create
+        queue 4
+    exit
+    fc "nc" create
+        queue 8
+    exit
+    dscp be fc "be" priority low
+    dscp ef fc "ef" priority high
+    dscp nc1 fc "nc" priority high
+    dscp nc2 fc "nc" priority high
+    dscp af11 fc "af" priority high
+    dscp af12 fc "af" priority low
+    dscp af13 fc "af" priority low
+    dscp af21 fc "l1" priority high
+    dscp af22 fc "l1" priority low
+    dscp af23 fc "l1" priority low
+    dscp af31 fc "l1" priority high
+    dscp af32 fc "l1" priority low
+    dscp af33 fc "l1" priority low
+    dscp af41 fc "h2" priority high
+    dscp af42 fc "h2" priority low
+    dscp af43 fc "h2" priority low
+exit

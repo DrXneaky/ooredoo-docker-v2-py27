@@ -1,0 +1,29 @@
+<div class="sidenav">
+  <div class="login-main-text">
+    <h2>
+      Application<br />
+      Login Page
+    </h2>
+    <p>Login from here to access.</p>
+  </div>
+</div>
+<div class="main">
+  <div class="col-md-6 col-sm-12">
+    <div class="login-form">
+      <div *ngIf="loginFailed" class="alert alert-danger">{{loginFailed}}</div>
+      <form [formGroup]="signinFormGroup" (ngSubmit)="onSubmit(signinFormGroup)">
+        <div class="form-group">
+          <i class="fa fa-user"></i><label class="m-l-10">User Name</label>
+          <input type="text" class="form-control" placeholder="User Name" formControlName="userName" />
+        </div>
+        <div class="form-group">
+          <i class="fa fa-paper-plane"></i><label class="m-l-10">Password</label>
+          <input type="password" class="form-control" placeholder="Password" formControlName="password" />
+        </div>
+        <button type="submit" class="btn btn-black m-l-10">Login</button>
+        <button type="submit" class="btn btn-secondary m-l-10" (click)="resetForm(signinFormGroup)">Cancel</button>
+        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+      </form>
+    </div>
+  </div>
+</div>

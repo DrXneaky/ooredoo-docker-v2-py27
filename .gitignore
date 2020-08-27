@@ -1,0 +1,31 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+
+
+#Project dependencies folder
+dependencies/
+
+
+# dotenv
+.env
+
+ virtualenv
+.venv
+venv/
+ENV/
+
+# mypy
+.mypy_cache/
+deply_key
+./deploy_key
+
+
+#angular stuff
+node_modules/
+

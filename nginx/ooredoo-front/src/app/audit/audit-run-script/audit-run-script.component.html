@@ -1,0 +1,164 @@
+<form class="form-horizontal m-t-40" [formGroup]="ScriptFormGroup" (ngSubmit)="onSubmit(ScriptFormGroup)">
+  <div class="row">
+    <div class="col-sm-12 card-no-border">
+      <div class="card ">
+        <div class="card-header bg-header header-no-border">
+          <h4 class="card-title m-b-0">Run Scripts -
+            {{displayedPath}}</h4>
+        </div>
+        <div class="card-body">
+          <h6 class="card-subtitle">
+            <div class="preview p-b-15 p-t-15"> <i class="icon-info round-icon"></i> Please start with
+              selecting the script,
+              then choose the target devices.
+            </div>
+          </h6>
+          <div class="row">
+            <div class="col-8">
+              <div class="form-group">
+                <label for="vendor">Script*</label>
+                <select class="custom-select col-12 font-13" formControlName="scriptName" id="inlineFormCustomSelect">
+                  <option value="0" selected disabled>Select Script</option>
+                  <option *ngFor="let script of scriptList" value="{{script.name}}">{{script.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <label for="vendor">Device Type*</label>
+              <select #deviceTypeSelect class="custom-select col-12 font-13" formControlName="deviceType"
+                id="FormCustomSelect" (change)="onSelectChange(deviceTypeSelect.value)">
+                <option value="All" selected>All</option>
+                <option value="Switch">Switch</option>
+                <option value="Router">Router</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <nao-checkbox [popHeight]="popHeight" [checkWaterMark]="checkWaterMark" [checkFields]="checkFields"
+                  [data]="devices" [label]="label" [filterPlaceholder]="filterPlaceholder"
+                  [enableGroupCheckBox]='enableGroupCheckBox' (onChangeEvent)="OnMultiSelectChange($event)">
+                </nao-checkbox>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <button type="reset"
+                class="btn btn-secondary waves-effect waves-light m-t-10 float-right m-l-10">Cancel</button>
+              <button type="submit" class="btn btn-info waves-effect waves-light m-t-10 float-right m-l-10"
+                [disabled]="ScriptFormGroup.invalid">Run</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>
+
+<!--Script Table list-->
+<nao-audit-list-scripts [scripts]="scripts" (actionClick)="onActionClick($event)" [pages]="pages"
+  (pageChange)="onPageChange($event)">
+</nao-audit-list-scripts>
+
+
+<!-- File upload -->
+<div class="row">
+  <div class="col-12 card-no-border">
+    <div class="card-header bg-header header-no-border">
+      <h4 class="card-title m-b-0">Script Uploader</h4>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-subtitle">
+          <div class="preview p-b-15 p-t-15"> <i class="icon-info round-icon"></i> Please select the file you wish to
+            upload.
+          </div>
+        </h6>
+        <div class="form-group">
+
+          <input type="file" id="file" (change)="handleFileInput($event.target.files)" placeholder="Upload file"
+            accept=".pdf,.txt,.py">
+          <label for="file"></label>
+          <button type="button" class="btn btn-secondary " (click)="UploadFileToActivity()">Upload
+            Script</button>
+        </div>
+
+
+        <!-- <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupFileAddon01" (click)="UploadFileToActivity()">Upload</span>
+          </div>
+          <div class="custom-file">
+            <label class="custom-file-label" for="file">Choose file</label>
+            <input type="file" class="custom-file-input" id="file" aria-describedby="inputGroupFileAddon01"
+              (change)="handleFileInput($event.target.files)" accept=".pdf,.txt,.py">
+
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Previous -->
+<div class="row">
+  <div class="col-12 card-no-border">
+    <div class="card">
+      <div class="card-body">
+        <button class="btn btn-outline-dark" type="button" [routerLink]="'/audit/dashboard'">
+          Previous
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Report modal -->
+<ng-template #contentDevices let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{modalHeader}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngFor="let device of modalBody" class="text-center text-primary">{{device | json}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('CANCEL')">Ok</button>
+  </div>
+</ng-template>
+
+<ng-template #contentReport let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{modalHeader}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center text-primary" [innerHTML]="reportBody"></div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('CANCEL')">Ok</button>
+  </div>
+</ng-template>
+
+<ng-template #contentPdf let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{modalHeader}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <nao-pdf-viewer [filename]="pdf_filename"></nao-pdf-viewer>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('CANCEL')">Ok</button>
+  </div>
+</ng-template>
