@@ -49,8 +49,8 @@ def get_devices(session, page, size):
 
 
 def upload_devices(session, devices):
-    i = 0
-    devices_list = [Device(device["hostname"], device["ipSystem"], device["rd"], device["vendor"])
+
+    devices_list = [Device(device["hostname"], device["ipSystem"], device["rd"], device["vendor"], 'Router')
                     for device in devices if data_validator.validate_ipaddres(device["ipSystem"])]
     print(devices_list)
     session.add_all(devices_list)

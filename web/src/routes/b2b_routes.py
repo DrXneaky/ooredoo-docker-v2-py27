@@ -174,7 +174,7 @@ def upload_devices():
         session.close()
 
         return jsonify(
-            "The devices uploaded succesfully",
+            "The devices uploaded successfully",
             200
         )
     else:
