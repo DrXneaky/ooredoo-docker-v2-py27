@@ -85,7 +85,7 @@ def generate_workorder_file(workorder_to_save, session):
                 workorder_file_name = util.get_path_workorder(work_order_name)
                 file_manager.create_workorder_file(
                     workorder_file_name, workorder_final)
-                return True, "your workorder is created sucssufully. You can download it now", services, clients_services[0]["client"]
+                return True, "your workorder is created successfully. You can download it now", services, clients_services[0]["client"]
             else:
                 return False, error_creat
 

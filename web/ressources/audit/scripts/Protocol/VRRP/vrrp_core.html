@@ -1,0 +1,70 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>html title</title>
+<style type="text/css" media="screen">
+<style type="text/css">
+table.gridtable {
+    font-family: verdana,arial,sans-serif;
+    font-size:11px;
+    color:#333333;
+    border-width: 1px;
+    border-color: #666666;
+    border-collapse: collapse;
+}
+table.gridtable th {
+    color: white;
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color:rgb(0, 0, 102);
+}
+table.gridtable td {
+    text-align: center;
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #ffffff;
+}
+p.normal {
+    font-weight: normal;
+    color:#002060;
+    font-family: "Garamond";
+}
+li.normal {
+    font-weight: normal;
+    color:#002060;
+    font-family: "Garamond";
+}
+
+</style>
+</head>
+<body >
+
+<p class="normal">Dear all,</p>
+<p class="normal"> Please to find below the weekly report of IPMPLS vrrp_Check :</p>
+{{week}}
+<p class="normal"><strong>VRRP (BB) :</strong></p>
+<table class="gridtable">
+    <th>Hostname</th>
+    <th>Nombre d'anomalies</th>
+    <th>interface ID</th>
+    {% for anomalie_by_switch in anomalis_init %}
+    <tr>
+                <td>{{anomalie_by_switch[1]}}</td>
+                <td>{{anomalie_by_switch[2]}}</td>
+                <td>{{anomalie_by_switch[0]}}</td>
+
+        
+    </tr>
+    {% endfor %}
+
+</table>
+<p class="normal">Description: Check if priority 60 delta is configured under VRRP policies</p>
+<br>
+
+<br>
+ <p class="normal">This message is auto-generated.</p>
+ <p class="normal">Please DO NOT reply to this message.</p>
+ <p class="normal">Best Regards,</p>

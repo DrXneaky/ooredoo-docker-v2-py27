@@ -12,12 +12,16 @@ def run_script(script):
     try:
         path = "".join([
             Config.SCRIPTS_PATH,
-            script['scriptType'].replace('_', '/'),
-            '/',
-            script['scriptName']
+            script['scriptType'].replace('_', '\\'),
+            '\\',
+            script['scriptName'],
         ])
-        stream = os.popen(" ".join(['python', path]))
+        command = "".join(['python ', '"',path,'"'])
+        print(command)
+        stream = os.popen(command)
+        #stream = os.popen(" ".join(['python', path]))
         report = stream.read()
+        print('report', report)
         report = convert_xlsx2html("".join([
             Config.OUTPUT_EXCEL_PATH,
             script['scriptType'].replace('_', '/'),

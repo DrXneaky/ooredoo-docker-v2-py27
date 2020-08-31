@@ -13,16 +13,16 @@ class Config(object):
     # app path variables
     APPLICATION_PATH = os.getcwd()
     if platform.system() == 'Windows':
-        SCRIPTS_PATH = APPLICATION_PATH + '\\ressources\\scripts\\'
-        OUTPUT_PDF_PATH = APPLICATION_PATH + '\\ressources\\reports_pdf'
-        OUTPUT_EXCEL_PATH = APPLICATION_PATH + '\\ressources\\output_excel\\'
+        SCRIPTS_PATH = APPLICATION_PATH + '\\ressources\\audit\\scripts\\'
+        OUTPUT_PDF_PATH = APPLICATION_PATH + '\\ressources\\audit\\reports_pdf'
+        OUTPUT_EXCEL_PATH = APPLICATION_PATH + '\\ressources\\audit\\output_excel\\'
         WORK_ORDER_DIRECTORY = APPLICATION_PATH + \
             '\\ressources\\work_order_folder\\work_order_b2b\\'
         timos_excel_file = APPLICATION_PATH + '\\ressources\\formulaire.xls'
     else:
-        SCRIPTS_PATH = APPLICATION_PATH + '/ressources/scripts/'
-        OUTPUT_PDF_PATH = APPLICATION_PATH + '/ressources/reports_pdf'
-        OUTPUT_EXCEL_PATH = APPLICATION_PATH + '/ressources/output_excel/'
+        SCRIPTS_PATH = APPLICATION_PATH + '/ressources/audit/scripts/'
+        OUTPUT_PDF_PATH = APPLICATION_PATH + '/ressources/audit/reports_pdf'
+        OUTPUT_EXCEL_PATH = APPLICATION_PATH + '/ressources/audit/output_excel/'
         WORK_ORDER_DIRECTORY = APPLICATION_PATH + \
             '/ressources/work_order_folder/work_order_b2b/'
         timos_excel_file = APPLICATION_PATH + '/ressources/formulaire.xls'

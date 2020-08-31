@@ -4,8 +4,8 @@ import { Observable } from "rxjs";
 import { HttpHeaders } from "@angular/common/http";
 import { CronJob } from "src/app/audit/audit-list-cronjobs/audit-list-cronjobs-config";
 import { AuditNestedTreeElements } from "src/app/shared/components/audit-card/audit-card-config";
-import { $API_URL } from '../../env';
 import { $ } from 'protractor';
+import { environment } from '../../../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -18,11 +18,14 @@ const httpOptions = {
   providedIn: "root",
 })
 export class AuditService {
+
+  $API_URL = environment.API_URL;
+
   constructor(private http: HttpClient) { }
 
   generateCronJob(cronJob: CronJob): Observable<CronJob> {
     return this.http.post<CronJob>(
-      $API_URL + "generate-cron-job",
+      this.$API_URL + "generate-cron-job",
       cronJob,
       httpOptions
     );
@@ -30,7 +33,7 @@ export class AuditService {
 
   convertCronJob(cronJob: CronJob): Observable<CronJob> {
     return this.http.post<CronJob>(
-      $API_URL + "convert-cron-job",
+      this.$API_URL + "convert-cron-job",
       cronJob,
       httpOptions
     );
@@ -38,13 +41,13 @@ export class AuditService {
 
   getCronJobs(page: number, size: number): Observable<any> {
     return this.http.get<any>(
-      $API_URL + "cron-jobs/" + page + "/" + size
+      this.$API_URL + "cron-jobs/" + page + "/" + size
     );
   }
 
   getScriptNames(path: any): Observable<any> {
     return this.http.post<any>(
-      $API_URL + "get-script-names",
+      this.$API_URL + "get-script-names",
       { "path": path },
       httpOptions
     );
@@ -52,13 +55,13 @@ export class AuditService {
 
   getScripts(page: number, size: number, type: String): Observable<any> {
     return this.http.get<any>(
-      $API_URL + "get-scripts/" + type + "/" + page + "/" + size
+      this.$API_URL + "get-scripts/" + type + "/" + page + "/" + size
     );
   }
 
   generateScript(script: any): Observable<any> {
     return this.http.post<any>(
-      $API_URL + "generate-script",
+      this.$API_URL + "generate-script",
       script,
       httpOptions
     );
@@ -66,7 +69,7 @@ export class AuditService {
 
   runScript(script: any): Observable<any> {
     return this.http.post<any>(
-      $API_URL + "run-script",
+      this.$API_URL + "run-script",
       script,
       httpOptions
     );
@@ -74,13 +77,13 @@ export class AuditService {
 
   getTreeArch(): Observable<AuditNestedTreeElements[]> {
     return this.http.get<AuditNestedTreeElements[]>(
-      $API_URL + 'get-script-tree-arch'
+      this.$API_URL + 'get-script-tree-arch'
     );
   }
 
   editFolder(path: String, name: String, action: String): Observable<any> {
     return this.http.post<any>(
-      $API_URL + 'edit-script-folder',
+      this.$API_URL + 'edit-script-folder',
       {
         "path": path,
         "name": name,
@@ -92,7 +95,7 @@ export class AuditService {
 
   postFile(fileToUpload: File, path: String): Observable<boolean> {
     console.log(path.split("/").join('_'));
-    const endpoint = $API_URL + 'upload-script/' + path;
+    const endpoint = this.$API_URL + 'upload-script/' + path;
     const formData: FormData = new FormData();
     formData.append('uploadFile', fileToUpload, fileToUpload.name);
     let headers = new HttpHeaders();

@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { $API_URL } from "../env"
+
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UploadService {
-  SERVER_URL: string = $API_URL;
+
+
+  SERVER_URL: string = environment.API_URL;
   constructor(private httpClient: HttpClient) { }
 
   public upload(formData) {
