@@ -148,7 +148,7 @@ export class AuditRunScriptComponent implements OnInit {
     //script.device = formGroup.get("device").value;
     script.devices = this.selectedDevices;
     script.scriptType = this.path.split("/").join('_');
-    console.log(script);
+    //console.log(script);
     return script;
   }
   //triggered when clicking on action buttons (run, report, device) in the script table 
@@ -182,12 +182,17 @@ export class AuditRunScriptComponent implements OnInit {
         console.log('open pdf viewer');
         this.modalHeader = "PDF Viewer";
         this.pdf_filename = this.path.split("/").join('+') + '+' + event.script.scriptName;
-        console.log(this.pdf_filename);
-        this.modalService.open(this.contentPdf, {
+        //console.log(this.pdf_filename);
+        //pdf viewer
+        /* this.modalService.open(this.contentPdf, {
           ariaLabelledBy: "modal-basic-title",
           size: "lg",
           centered: true,
-        });
+        }); */
+        //idsplay log
+        this.reportBody = event.script.log;
+        this.openDialog()
+
         break;
     }
   }

@@ -14,10 +14,11 @@ import os
 import smtplib
 import datetime
 import platform
+from netmiko.ssh_exception import NetMikoTimeoutException
 
 # upload Nokia.txt, Ooredoo.jpg under Protocol/VRRP
 # change email creds
-
+print('input_list', sys.argv[1].strip().split(' '))
 # working directory in VM nNetwork automation
 if platform.system() == 'Windows':
     base_path = 'C:\\Users\\Ahmed\\Desktop\\automation tool folders\\from git\\ooredoo-docker-v2-py27\\web\\ressources\\audit\\'
@@ -37,6 +38,7 @@ anomalie_list = []
 with open(FILEPATH_NOKIA, READING) as f:
     list_routers = f.readlines()
 
+list_routers = sys.argv[1].strip().split(' ')
 
 def find_vrrp_anomalies(ip):
 
@@ -46,18 +48,21 @@ def find_vrrp_anomalies(ip):
                       'password': 'Or~DIpM$19#!', }
     list_vrrp = []
     list_vrrp_anomalie_by_router = []
-    net_connect = ConnectHandler(**alcatel_lucent)
-    out_vrrp_policy = net_connect.send_command(cmd_vrrp_policy, max_loops=1000)
-    if out_vrrp_policy:
-        for line in out_vrrp_policy.splitlines():
-            list_vrrp.append(line.split()[1])
-        if list_vrrp:
-            hostname = net_connect.find_prompt().split("#")[0]
-            list_vrrp_anomalie_by_router.append(list_vrrp)
-            list_vrrp_anomalie_by_router.append(hostname)
-            list_vrrp_anomalie_by_router.append(len(list_vrrp))
-            anomalie_list.append(list_vrrp_anomalie_by_router)
-    net_connect.disconnect()
+    try:
+        net_connect = ConnectHandler(**alcatel_lucent)
+        out_vrrp_policy = net_connect.send_command(cmd_vrrp_policy, max_loops=1000)
+        if out_vrrp_policy:
+            for line in out_vrrp_policy.splitlines():
+                list_vrrp.append(line.split()[1])
+            if list_vrrp:
+                hostname = net_connect.find_prompt().split("#")[0]
+                list_vrrp_anomalie_by_router.append(list_vrrp)
+                list_vrrp_anomalie_by_router.append(hostname)
+                list_vrrp_anomalie_by_router.append(len(list_vrrp))
+                anomalie_list.append(list_vrrp_anomalie_by_router)
+        net_connect.disconnect()
+    except NetMikoTimeoutException as exception:
+        print(str(exception))
 
 # find_vrrp_anomalies("192.168.160.100")
 # print anomalie_list
@@ -69,7 +74,7 @@ try:
     for thread in threads:
         thread.join()
 except Exception as e:
-    print(str(e))
+    print('connection de device failed')
 
 
 if len(anomalie_list):
@@ -112,7 +117,7 @@ try:
     server.quit()
 except Exception as e:
     print('mail failed')
-print(output)
+#print(output)
 
 try:
     workbook = Workbook(base_path + 'output_excel\\Protocol\\VRRP\\audit_vrrp.xlsx')

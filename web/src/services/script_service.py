@@ -4,30 +4,47 @@ import shutil
 from config import Config, make_path
 import subprocess
 from src.commons.utils.file_manager import convert_xlsx2html
-
+from src.controllers.device_controller import get_devices_schema_from_hostnamelist
+from src.repositories.entity import Session
 
 def run_script(script):
     status = "Failed"
     report = "A problem has occurred when trying to run the script!"
+    log = ""
     try:
         path = "".join([
             Config.SCRIPTS_PATH,
-            script['scriptType'].replace('_', '\\'),
-            '\\',
+            script['scriptType'].replace('_', '/'),
+            '/',
             script['scriptName'],
         ])
-        command = "".join(['python ', '"',path,'"'])
+        session = Session()
+        device_ip_list = ""
+        try:
+            script_devices = get_devices_schema_from_hostnamelist(session, script['devices'])
+            
+            for device in script_devices:
+                device_ip_list = " ".join([device_ip_list, device["ipSystem"]])     
+        except Exception as e:   
+            pass
+        
+        session.close()
+        type_path = script['scriptType'].replace('_', '/')
+        command = "".join(['python ', '"',path,'"', " ", '"',device_ip_list,'"', " ", '"',type_path,'"'])
         print(command)
         stream = os.popen(command)
         #stream = os.popen(" ".join(['python', path]))
-        report = stream.read()
-        print('report', report)
-        report = convert_xlsx2html("".join([
-            Config.OUTPUT_EXCEL_PATH,
-            script['scriptType'].replace('_', '/'),
-            '/',
-            script['scriptName'].replace('.py', '.xlsx')
-        ]))
+        log = stream.read()
+        print('log', log)
+        report = convert_xlsx2html(
+                "".join([
+                    Config.OUTPUT_EXCEL_PATH,
+                    script['scriptType'].replace('_', '/'),
+                    '/',
+                    script['scriptName'].replace('.py', '.xlsx')
+                ]),
+                script['scriptName'].replace('.py', '')
+            )
         # pdfkit.from_file('pandas_output.html', 'pandas_out.pdf')
         # path = Config.SCRIPTS_PATH+script['scriptType'].replace('_', '/')
         # +'/'+script['scriptName']
@@ -46,12 +63,14 @@ def run_script(script):
             Config.SCRIPTS_PATH+script['scriptType'].replace('_', '/')+'/', script['scriptName']), globals())
         report = message
         status = 'Success'
+        log = report
     except Exception as exception:
         #print ("exception",str(exception))
         status = "Error"
         report = str(exception)
+        log = str(exception)
     finally:
-        return status, report
+        return status, report, log
 
 
 def add_folder(dir_path, name):

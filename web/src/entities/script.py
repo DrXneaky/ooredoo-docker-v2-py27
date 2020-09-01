@@ -17,16 +17,18 @@ class Script(Entity, Base):
   scriptType = Column('script_type',String)
   status = Column(String)
   report = Column(Text)
+  log = Column(Text)
   devices = relationship('Device', secondary ='script_device')
 
 
-  def __init__(self, creationDate, scriptName, target, scriptType, status, report, devices):
+  def __init__(self, creationDate, scriptName, target, scriptType, status, report, log, devices):
     self.creationDate = creationDate
     self.scriptName = scriptName
     self.target = target
     self.scriptType = scriptType
     self.status = status
     self.report = report
+    self.log = log
     self.devices = devices
   
 
@@ -38,5 +40,6 @@ class ScriptSchema(Schema):
   scriptType = fields.Str()
   status = fields.Str()
   report = fields.Str()
+  log = fields.Str()
   devices = fields.List(fields.Nested(DeviceSchema))
 

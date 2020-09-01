@@ -16,6 +16,7 @@ class Config(object):
         SCRIPTS_PATH = APPLICATION_PATH + '\\ressources\\audit\\scripts\\'
         OUTPUT_PDF_PATH = APPLICATION_PATH + '\\ressources\\audit\\reports_pdf'
         OUTPUT_EXCEL_PATH = APPLICATION_PATH + '\\ressources\\audit\\output_excel\\'
+        EMAIL_HTML_TEMPLATE_PATH = APPLICATION_PATH + '\\ressources\\audit\\email_templates'
         WORK_ORDER_DIRECTORY = APPLICATION_PATH + \
             '\\ressources\\work_order_folder\\work_order_b2b\\'
         timos_excel_file = APPLICATION_PATH + '\\ressources\\formulaire.xls'
@@ -23,6 +24,7 @@ class Config(object):
         SCRIPTS_PATH = APPLICATION_PATH + '/ressources/audit/scripts/'
         OUTPUT_PDF_PATH = APPLICATION_PATH + '/ressources/audit/reports_pdf'
         OUTPUT_EXCEL_PATH = APPLICATION_PATH + '/ressources/audit/output_excel/'
+        EMAIL_HTML_TEMPLATE_PATH = APPLICATION_PATH + '/ressources/audit/email_templates'
         WORK_ORDER_DIRECTORY = APPLICATION_PATH + \
             '/ressources/work_order_folder/work_order_b2b/'
         timos_excel_file = APPLICATION_PATH + '/ressources/formulaire.xls'
@@ -47,7 +49,7 @@ class Config(object):
     )
     CRON_SCRIPT_DIRECTORY = '/usr/local/bin/'
     CRON_LOG_DIRECTORY = '/var/log/cronlogs/'
-    CRON_DESTINATION_EMAIL = 'ahess190@gmail.com'
+    CRON_DESTINATION_EMAIL = "lobna.belgaied@ooredoo.tn, awadi.mohamed@ooredoo.tn"
     CRON_LOGGING_FORMAT = 'cron{0}.log'
 
 

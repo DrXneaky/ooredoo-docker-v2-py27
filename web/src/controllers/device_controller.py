@@ -31,8 +31,13 @@ def get_devices_schema_from_type(session, devicetype):
 
 def get_devices_schema_from_hostnamelist(session, hostnamelist):
     schema = DeviceSchema(many=True)
-    devices = fetch_devices_from_hostnamelist(session, hostnamelist)
-    print(devices)
-    print(hostnamelist)
+    try:
+        if (type(hostnamelist[0])==str):
+            devices = fetch_devices_from_hostnamelist(session, hostnamelist)
+        else:
+            hostnamelist = [device['hostname'] for device in hostnamelist]
+            devices = fetch_devices_from_hostnamelist(session, hostnamelist)
+    except Exception as e:
+        print(str(e))
     devices_json = schema.dump(devices)
     return devices_json.data

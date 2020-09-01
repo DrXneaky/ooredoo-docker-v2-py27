@@ -5,7 +5,7 @@ from src.controllers import device_controller
 from src.repositories import device_repository
 
 
-def generate_script(script, status, report, session):
+def generate_script(script, status, report, log, session):
   try:
     device_list = script['devices']
   except:
@@ -20,6 +20,7 @@ def generate_script(script, status, report, session):
     script['scriptType'],
     status,
     report,
+    log,
     devices_list,
   )
   session.add(script_to_save)
@@ -29,10 +30,11 @@ def get_scripts(session, scriptType, page, size):
   pagination = paginate(session.query(Script).order_by(Script.creationDate.desc()).filter(Script.scriptType == scriptType), int(page), int(size))
   return pagination
 
-def edit_script(script, session, status, report):
+def edit_script(script, session, status, report, log):
   script_to_edit = session.query(Script).filter(Script.id == script['id']).first()
   #print ("script_to_edit: ", script_to_edit)
   script_to_edit.status = status
   script_to_edit.report = report
+  script_to_edit.log = log
   session.commit()
   return script_to_edit

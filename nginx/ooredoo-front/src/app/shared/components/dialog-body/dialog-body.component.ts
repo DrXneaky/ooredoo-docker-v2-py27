@@ -18,7 +18,7 @@ export class DialogBodyComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.report);
+    //console.log(this.report);
   }
 
   close() {

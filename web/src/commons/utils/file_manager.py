@@ -82,12 +82,18 @@ def get_tree(script_path):
     return json_string
 
 
-def convert_xlsx2html(excel_path):
+def convert_xlsx2html(excel_path, title):
     try:
         """ wb = pandas.read_excel(excel_path)
         return (wb.to_html()) """
         out_stream = xlsx2html(excel_path)
         out_stream.seek(0)
-        return(out_stream.read())
+        html = out_stream.read()
+        html = html.replace(
+            '<table  style="border-collapse: collapse" border="0" cellspacing="0" cellpadding="0"><colgroup>',
+            '<table  style="border-collapse: collapse" border="1px" cellspacing="5px" cellpadding="5px"><colgroup>'
+            )
+        html = html.replace('<title>Title</title>', '<title>{0}</title>'.format(title))
+        return(html)
     except Exception as e:
         return str(e)

@@ -110,8 +110,8 @@ def generate_script():
     session = Session()
     script = request.get_json()
     # try:
-    status, report = script_service.run_script(script)
-    script_repository.generate_script(script, status, report, session)
+    status, report, log = script_service.run_script(script)
+    script_repository.generate_script(script, status, report, log, session)
     session.close()
     return jsonify(status=status, report=report)
     # except:
@@ -124,10 +124,10 @@ def generate_script():
 def run_script():
     session = Session()
     script = request.get_json()
-    status, report = script_service.run_script(script)
-    if status != script["status"] or report != script["report"]:
+    status, report, log = script_service.run_script(script)
+    if status != script["status"] or report != script["report"] or log!=script["log"]:
         edited_script = script_controller.edit_script_schema(
-            script, session, status, report
+            script, session, status, report, log
         )
         changed = "Changed"
     else:
@@ -155,10 +155,13 @@ def edit_folder():
         Config.OUTPUT_PDF_PATH, request.get_json()['path'])
     output_excel_path = safe_join(
         Config.OUTPUT_EXCEL_PATH, request.get_json()['path'])
+    email_template_path = safe_join(
+        Config.EMAIL_HTML_TEMPLATE_PATH, request.get_json()['path'])
     path = []
     path.append(script_path)
     path.append(output_pdf_path)
     path.append(output_excel_path)
+    path.append(email_template_path)
     print("path ", request.get_json()['path'])
     name = request.get_json()['name']
     if (request.get_json()['action'] == 'add'):
@@ -250,3 +253,16 @@ def view_pdf_file(filepath):
     except Exception as exp:
         print(str(exp))
         return str(exp)
+
+
+# example http://172.22.114.45/api/display-file/path&/home/user/file.txt
+@app.route('/get-file/<path:file_path>', methods=['GET'])
+def display_file(file_path):
+    print(file_path)
+    thispath = file_path.split('&')[1]
+    command = "".join(['cat ', '"', thispath, '"'])
+    stream = os.popen(command)
+    stream.seek(0)
+    file_content = stream.read()
+    json_object = dict(path=thispath, file_content=file_content) 
+    return jsonify(path=thispath, file=file_content) 

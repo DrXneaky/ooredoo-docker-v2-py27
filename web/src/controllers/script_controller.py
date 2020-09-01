@@ -7,8 +7,8 @@ def get_scripts_schema(session, scriptType, page, size):
   page.items = schema.dump(page.items)
   return page.__dict__
 
-def edit_script_schema(script, session, status, report):
+def edit_script_schema(script, session, status, report, log):
   schema = ScriptSchema(many=False)
-  edited_script = edit_script(script, session, status, report)
+  edited_script = edit_script(script, session, status, report, log)
   edited_script = schema.dump(edited_script)
   return edited_script.data

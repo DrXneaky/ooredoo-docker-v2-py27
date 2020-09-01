@@ -13,7 +13,7 @@ COPY . /
 USER root
 #RUN rm -rf /var/cache/* && \
 #  mkdir /var/cache/apk
-RUN pip install --no-index --find-links dependencies xlsx2html packaging
+RUN pip install --no-index --find-links dependencies xlsx2html packaging gunicorn==19.6.0 xlsxwriter
 #RUN rm -rf /var/cache/apk/* && \
 #  rm -rf /tmp/*
 
