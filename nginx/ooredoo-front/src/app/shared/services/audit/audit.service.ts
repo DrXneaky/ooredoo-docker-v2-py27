@@ -93,9 +93,9 @@ export class AuditService {
     );
   }
 
-  postFile(fileToUpload: File, path: String): Observable<boolean> {
+  postFile(fileToUpload: File, path: String, route: String): Observable<boolean> {
     console.log(path.split("/").join('_'));
-    const endpoint = this.$API_URL + 'upload-script/' + path;
+    const endpoint = this.$API_URL + route + path;
     const formData: FormData = new FormData();
     formData.append('uploadFile', fileToUpload, fileToUpload.name);
     let headers = new HttpHeaders();

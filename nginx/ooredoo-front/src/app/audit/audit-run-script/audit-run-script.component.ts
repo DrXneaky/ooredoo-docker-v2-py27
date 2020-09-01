@@ -232,18 +232,21 @@ export class AuditRunScriptComponent implements OnInit {
     this.getScripts(this.pageNumber, this.path.split("/").join('_'));
   }
 
+
+
+
+
+  // Upload scripts 
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
   }
-
-  UploadFileToActivity() {
+  UploadFileToActivity(url: String) {
     try {
-      this.auditService.postFile(this.fileToUpload, this.path.split("/").join('_')).subscribe(data => {
+      this.auditService.postFile(this.fileToUpload, this.path.split("/").join('_'), url).subscribe(data => {
         this.toastr.success(data['response']);
       }, error => {
         this.toastr.error(error);
         console.log(error);
-
       });
       this.getScriptNames(this.path);
     } catch (error) {
@@ -252,11 +255,11 @@ export class AuditRunScriptComponent implements OnInit {
       }
     }
   }
-
   OnMultiSelectChange(eventValues: []) {
     console.log(eventValues);
     this.selectedDevices = eventValues;
   }
+
 
 }
 

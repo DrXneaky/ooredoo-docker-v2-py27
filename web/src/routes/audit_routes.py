@@ -202,6 +202,34 @@ def upload_script(path):
         return jsonify(response='Bad Request Error')
 
 
+@app.route('/upload-template/<path>', methods=['POST'])
+@jwt_required
+def upload_template(path):
+    try:
+        profile = request.files['uploadFile']
+        print("profile", profile)
+        try:
+            if platform.system() == 'windows':
+                savePath = path.replace('_', '\\')
+            else:
+                savePath = path.replace('_', '/')
+
+            profile.save(os.path.join(
+                Config.EMAIL_HTML_TEMPLATE_PATH + savePath,
+                secure_filename(profile.filename))
+            )
+            return jsonify(response='File uploaded successfully')
+        except Exception as e:
+            print(str(e))
+            profile.save(os.path.join(
+                Config.EMAIL_HTML_TEMPLATE_PATH,
+                secure_filename(profile.filename))
+            )
+            return jsonify(response='File uploaded in the root directory')
+    except KeyError:
+        return jsonify(response='Bad Request Error')
+
+
 @app.route('/view-pdf', methods=['POST', 'GET'])
 def view_pdf():
     if request.method == 'POST':

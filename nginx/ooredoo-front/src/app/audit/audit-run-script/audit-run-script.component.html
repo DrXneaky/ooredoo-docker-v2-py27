@@ -64,7 +64,7 @@
 </nao-audit-list-scripts>
 
 
-<!-- File upload -->
+<!-- Script upload -->
 <div class="row">
   <div class="col-12 card-no-border">
     <div class="card-header bg-header header-no-border">
@@ -78,30 +78,43 @@
           </div>
         </h6>
         <div class="form-group">
-
           <input type="file" id="file" (change)="handleFileInput($event.target.files)" placeholder="Upload file"
             accept=".pdf,.txt,.py">
           <label for="file"></label>
-          <button type="button" class="btn btn-secondary " (click)="UploadFileToActivity()">Upload
+          <button type="button" class="btn btn-secondary " (click)="UploadFileToActivity('upload-script/')">Upload
             Script</button>
         </div>
-
-
-        <!-- <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroupFileAddon01" (click)="UploadFileToActivity()">Upload</span>
-          </div>
-          <div class="custom-file">
-            <label class="custom-file-label" for="file">Choose file</label>
-            <input type="file" class="custom-file-input" id="file" aria-describedby="inputGroupFileAddon01"
-              (change)="handleFileInput($event.target.files)" accept=".pdf,.txt,.py">
-
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
 </div>
+
+
+<!-- Template upload -->
+<div class="row">
+  <div class="col-12 card-no-border">
+    <div class="card-header bg-header header-no-border">
+      <h4 class="card-title m-b-0">Template Uploader</h4>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-subtitle">
+          <div class="preview p-b-15 p-t-15"> <i class="icon-info round-icon"></i> Please select the file you wish to
+            upload.
+          </div>
+        </h6>
+        <div class="form-group">
+          <input type="file" id="template" (change)="handleFileInput($event.target.files)" placeholder="Upload file"
+            accept=".pdf,.txt,.html">
+          <label for="file"></label>
+          <button type="button" class="btn btn-secondary " (click)="UploadFileToActivity('upload-template/')">Upload
+            Template</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- Previous -->
 <div class="row">
