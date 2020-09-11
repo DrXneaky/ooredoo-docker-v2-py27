@@ -5,7 +5,7 @@ from cron_descriptor import get_description
 import platform
 
 
-def activate_cron_job(cronjob_from_request, cron_job):
+def add_cron_job(cronjob_from_request, cron_job):
     cronjob_raw_expression = cron_job.expression
     cronjob_converted_expression = get_description(cronjob_raw_expression)
     script_command = cron_job.command

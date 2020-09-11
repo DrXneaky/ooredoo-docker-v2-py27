@@ -94,7 +94,7 @@ export class DevicesDashboardComponent implements OnInit {
   }
 
   getDevices(pageNumber: number) {
-    this.DeviceService.getDevices(pageNumber, 7).subscribe((page: any) => {
+    this.DeviceService.getDevices(pageNumber, 4).subscribe((page: any) => {
       this.devices = page.items.data;
       this.pages = page.pages;
     });

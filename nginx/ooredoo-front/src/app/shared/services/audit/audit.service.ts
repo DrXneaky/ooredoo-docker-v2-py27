@@ -45,6 +45,18 @@ export class AuditService {
     );
   }
 
+  activateConJob(id: number): Observable<any> {
+    return this.http.get<any>(
+      this.$API_URL + "activate-cronjob/" + id
+    );
+  }
+
+  stopConJob(id: number): Observable<any> {
+    return this.http.get<any>(
+      this.$API_URL + "stop-cronjob/" + id
+    );
+  }
+
   getScriptNames(path: any): Observable<any> {
     return this.http.post<any>(
       this.$API_URL + "get-script-names",

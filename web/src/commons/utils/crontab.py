@@ -27,7 +27,7 @@ class MyCronTab(object):
     status = 'Not Yet'
     if (cron_job.creationDate < get_prev): 
       last_run = get_prev
-      status = 'Great success'
+      status = 'success'
     return last_run, status
 
   def cmd_woutput_log(base_command, id):

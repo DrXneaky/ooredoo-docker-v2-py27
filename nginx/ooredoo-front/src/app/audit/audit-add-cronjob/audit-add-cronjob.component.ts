@@ -31,7 +31,7 @@ import { audit } from "rxjs/operators";
 })
 export class AuditAddCronjobComponent implements OnInit {
   @ViewChild("content") content: ElementRef;
-
+  cronjobAction: String = '';
   cronJobs: CronJob[] = [];
   cronJobFormGroup: FormGroup;
   cronJob: CronJob;
@@ -165,22 +165,23 @@ export class AuditAddCronjobComponent implements OnInit {
   onActionClick(event: any) {
     switch (event.action) {
       case "RUN":
-        console.log("RUN ", event.cronJob.id);
+        //console.log("RUN ", event.cronJob.id);
         this.cronJob = event.cronJob;
         this.action = event.action;
-        this.openModal(this.content);
+        this.openModalRun(this.content);
+
         //this.open(this.content, event.workOrder); 
         break;
 
       case "STOP":
-        console.log("STOP ", event.cronJob.id);
+        //console.log("STOP ", event.cronJob.id);
         this.cronJob = event.cronJob;
         this.action = event.action;
-        this.openModal(this.content);
+        this.openModalStop(this.content);
     }
   }
 
-  openModal(content: any) {
+  openModalStop(content: any) {
     this.modalService
       .open(content, {
         ariaLabelledBy: "modal-basic-title",
@@ -192,13 +193,53 @@ export class AuditAddCronjobComponent implements OnInit {
           switch (result) {
             case "CANCEL":
               console.log("Canceled");
+
               break;
             case "CONFIRM":
-              console.log("Confirmed");
+              this.cronJobService.stopConJob(this.cronJob.id).subscribe(
+                (data: any) => {
+                  this.toastr.success(data.msg);
+                }, error => {
+                });
+              this.getCronJobs(this.pageNumber);
               break;
+            default:
+              this.cronjobAction = '';
           }
         },
         (reason) => { }
       );
+
   }
+
+  openModalRun(content: any) {
+    this.modalService
+      .open(content, {
+        ariaLabelledBy: "modal-basic-title",
+        size: "lg",
+        centered: true,
+      })
+      .result.then(
+        (result) => {
+          switch (result) {
+            case "CANCEL":
+              console.log("Canceled");
+
+              break;
+            case "CONFIRM":
+              this.cronJobService.activateConJob(this.cronJob.id).subscribe(
+                (data: any) => {
+                  this.toastr.success(data.msg);
+                }, error => {
+                });
+              this.getCronJobs(this.pageNumber);
+              break;
+            default:
+          }
+        },
+        (reason) => { }
+      );
+
+  }
+
 }

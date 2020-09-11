@@ -260,7 +260,4 @@ export class AuditRunScriptComponent implements OnInit {
     this.selectedDevices = eventValues;
   }
 
-
 }
-
-

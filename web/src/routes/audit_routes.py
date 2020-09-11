@@ -48,7 +48,7 @@ def generate_cron_job():
         session, cronjob_from_request, 'Pending', datetime.datetime.now()
     )
     if (response):
-        status = cronjob_service.activate_cron_job(
+        status = cronjob_service.add_cron_job(
             cronjob_from_request,
             cron_job
         )
@@ -57,15 +57,10 @@ def generate_cron_job():
     else:
         status = "Error"
         session.rollback()
+        message = 'schedule failed'
 
     return jsonify(cronjob_from_request, status, response, message), 201
 
-
-"""   except Exception as e:
-    session.rollback()
-    session.close()
-    print(e)
-    return jsonify(e, cronjob_from_request, "error", False), 500 """
 
 
 @app.route('/convert-cron-job', methods=['POST'])
@@ -79,6 +74,22 @@ def convert_cron_job():
         return jsonify(converted_cron_job=converted, status="ok")
     except Exception:
         return jsonify(converted_cron_job="", status="error")
+
+
+@app.route('/activate-cronjob/<id>', methods=['GET'])
+def activate_cronjob(id):
+    print(id, 'this cronjob was activated')
+    try:
+        cronjob_service.activate_cron_job()
+    except:
+        pass
+    return jsonify(id=id, msg='this cronjob was activated')
+
+
+@app.route('/stop-cronjob/<id>', methods=['GET'])
+def stop_cronjob(id):
+    print(id, 'this cronjob was stopped')
+    return jsonify(id=id, msg='this cronjob was stopped')
 
 
 # ------- Script Routes ---------

@@ -26,7 +26,7 @@ def generate_cron_job(session, cronjob_to_save, status, nextRun):
   session.add(cron_job)
   session.flush()
   print (cron_job.id)
-  return cron_job
+  return cron_job, ' was scheduled successfully', True
 
 
 
